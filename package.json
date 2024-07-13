@@ -1,0 +1,26 @@
+{
+  "name": "html-rspack-plugin-enhance-for-cra",
+  "version": "0.0.1",
+  "description": "rspackHtmlPlugin for cra",
+  "author": "coder-guanxy",
+  "jsnext:source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coder-guanxy/HtmlRspackPluginEnhanceForCRA.git"
+  },
+  "peerDependencies": {
+    "@rspack/core": "^0.7.5"
+  },
+  "devDependencies": {
+    "@modern-js/tsconfig": "^2.55.0",
+    "@rspack/core": "^0.7.5",
+    "@types/node": "^20.14.10"
+  },
+  "license": "MIT"
+}
