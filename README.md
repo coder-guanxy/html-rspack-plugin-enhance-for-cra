@@ -2,11 +2,11 @@
 
 ```bash
 # npm
-npm install html-rspack-plugin-enhance-for-cra
+npm install html-rspack-plugin-enhance-for-cra --save-dev
 # yarn
-yarn add html-rspack-plugin-enhance-for-cra
+yarn add html-rspack-plugin-enhance-for-cra --save-dev
 # pnpm
-pnpm add html-rspack-plugin-enhance-for-cra
+pnpm add html-rspack-plugin-enhance-for-cra --save-dev
 ```
 
 ## Usage
