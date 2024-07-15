@@ -8,20 +8,25 @@ import type {
   RspackPluginInstance,
 } from '@rspack/core';
 
-const cwd = process.cwd(); // work dir
+const cwd = process.cwd(); // workspace directory
 
-export interface Replacements {
-  [s: string]: string;
+export type Replacements = Record<string, string> | undefined;
+
+export interface HtmlRspackPluginEnhanceForCRAOptions
+  extends HtmlRspackPluginOptions {
+  CRAHtmlInterpolate?: Record<string, string> | undefined;
 }
 
 export class HtmlRspackPluginEnhanceForCRA implements RspackPluginInstance {
-  private options: HtmlRspackPluginOptions;
-
   constructor(
     private RspackHtmlPlugin: typeof HtmlRspackPlugin,
-    options: HtmlRspackPluginOptions = {},
-    replacements: Replacements = { PUBLIC_URL: './' },
+    private options: HtmlRspackPluginEnhanceForCRAOptions = {},
+    replacements?: Replacements,
   ) {
+    if (options.CRAHtmlInterpolate) {
+      replacements = options.CRAHtmlInterpolate;
+    }
+
     this.options = this.enhanceOptions(options, replacements);
   }
 
@@ -35,11 +40,11 @@ export class HtmlRspackPluginEnhanceForCRA implements RspackPluginInstance {
 
   private enhanceOptions(
     options: HtmlRspackPluginOptions,
-    replacements: Replacements,
+    replacements: Replacements = {},
   ) {
     const { templateContent, template } = options;
 
-    let htmlContent = '';
+    let htmlContent: string | undefined = undefined;
     if (template) {
       const htmlContentPath = resolve(cwd, template);
       htmlContent = readFileSync(htmlContentPath, 'utf-8');
@@ -52,13 +57,15 @@ export class HtmlRspackPluginEnhanceForCRA implements RspackPluginInstance {
 
     // Replace the magic variables in the template using regular expressions.
     // via: %PUBLIC_URL%
-    Object.keys(replacements).forEach(key => {
-      const value = replacements[key];
-      htmlContent = htmlContent.replace(
-        new RegExp('%' + this.escapeStringRegexp(key) + '%', 'g'),
-        value,
-      );
-    });
+    if (typeof htmlContent === 'string') {
+      Object.keys(replacements).forEach(key => {
+        const value = replacements[key];
+        htmlContent = htmlContent!.replace(
+          new RegExp('%' + this.escapeStringRegexp(key) + '%', 'g'),
+          value,
+        );
+      });
+    }
 
     return {
       ...options,

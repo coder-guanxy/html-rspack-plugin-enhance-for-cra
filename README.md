@@ -18,11 +18,14 @@ pnpm add html-rspack-plugin-enhance-for-cra
     <meta charset="UTF-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RepackHtmlPluginEnhanceForCRA-%TITLE_SUFFIX%</title>
+    <title>will be replace</title>
   </head>
   <body>
+    <div>%CRA_INTERPOLATE%</div>
+    <div><%= PUBLIC_KEY %></div>
     <div id="root"></div>
   </body>
+</html>
 </html>
 ```
 
@@ -42,16 +45,16 @@ module.exports = {
     new HtmlRspackPluginEnhanceForCRA(
       HtmlRspackPlugin, // HtmlRspackPlugin | HtmlWebpackPlugin
       {
-        // normal html-rspack-plugin | html-webpack-plugin options
+        title: 'HtmlRspackPluginEnhanceForCRATitle',
+        template: './public/index.html',
         templateParameters: {
-          P: 'p', // <%= P %>
+          PUBLIC_KEY: 'public-key',
         },
-      },
-      {
-        // <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-        // <link rel="icon" href="./favicon.ico" />
-        PUBLIC_URL: '.',
-        TITLE_SUFFIX: 'title_suffix',
+        // A new property has been added
+        CRAHtmlInterpolate: {
+          PUBLIC_URL: '.',
+          CRA_INTERPOLATE: 'create-react-app-html-interpolate',
+        },
       },
     ),
   ],
